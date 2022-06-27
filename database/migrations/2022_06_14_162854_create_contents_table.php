@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->string('whatOffer' , 700)->nullable();
-            $table->string('OurMessage' , 700)->nullable();
-            $table->string('whoWe' , 700)->nullable();
-            $table->string('mechanismWork' , 700)->nullable();
+            $table->longText('whatOffer')->nullable();
+            $table->longText('OurMessage')->nullable();
+            $table->longText('whoWe')->nullable();
+            $table->longText('mechanismWork')->nullable();
             $table->timestamps();
         });
     }

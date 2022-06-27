@@ -21,7 +21,7 @@ return new class extends Migration
             $table->bigInteger('phone')->nullable();
             $table->string('password');
             $table->rememberToken();
-            $table->enum('user_type',['admin','manger','user'])->default('user');
+            $table->enum('user_type',['admin','manger','employee','user'])->default('user');
             $table->foreignId('current_team_id')->nullable();
             $table->string('profile_photo_path', 2048)->nullable();
             $table->timestamps();

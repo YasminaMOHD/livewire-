@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('requests', function (Blueprint $table) {
             $table->id();
             $table->string('project_name')->nullable();
-            $table->integer('duration')->default(0);
+            $table->string('duration',50)->nullable();
             $table->text('otherInfo')->nullable();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();

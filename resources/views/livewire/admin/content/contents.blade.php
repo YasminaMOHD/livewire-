@@ -40,11 +40,23 @@
     <div class="d-flex flex-column-fluid">
         <!--begin::Container-->
         <div class="container" style="text-align: right">
+            <script>
+                window.addEventListener('alert', event => {
+                    toastr[event.detail.type](event.detail.message,
+                        event.detail.title ?? ''), toastr.options = {
+                        "closeButton": false,
+                        "progressBar": true,
+                        // "positionClass": "toast-top-center",
+                    }
+                });
+            </script>
             <form wire:submit.prevent="update">
                 <div class="form-group">
                     <label for="whatOffer">ماذا نُقدم ؟</label>
-                    <textarea class="summernote  @error('whatOffer') is-invalid @enderror" id="kt_summernote_1" name="whatOffer"
-                        id="whatOffer" wire:model="whatOffer"></textarea>
+                    <div wire:ignore>
+                        <textarea class="summernote  @error('whatOffer') is-invalid @enderror" id="kt_summernote_1" name="whatOffer"
+                            wire:model="whatOffer"></textarea>
+                    </div>
                     @error('whatOffer')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -53,8 +65,10 @@
                 </div>
                 <div class="form-group">
                     <label for="OurMessage">رسالتنا</label>
-                    <textarea class="summernote @error('OurMessage') is-invalid @enderror" id="kt_summernote_2" name="OurMessage"
-                        id="OurMessage" wire:model="OurMessage"></textarea>
+                    <div wire:ignore>
+                        <textarea class="summernote @error('OurMessage') is-invalid @enderror" id="kt_summernote_2" name="OurMessage"
+                            wire:model="OurMessage"></textarea>
+                    </div>
                     @error('OurMessage')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -62,8 +76,11 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="whoWe @error('whoWe') is-invalid @enderror">من نحن ؟</label>
-                    <textarea class="summernote" id="kt_summernote_3" name="whoWe" id="whoWe" wire:model="whoWe"></textarea>
+                    <label for="whoWe">من نحن ؟</label>
+                    <div wire:ignore>
+                        <textarea class="summernote @error('whoWe') is-invalid @enderror" id="kt_summernote_3" name="whoWe"
+                            wire:model="whoWe"></textarea>
+                    </div>
                     @error('whoWe')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -72,8 +89,10 @@
                 </div>
                 <div class="form-group">
                     <label for="mechanismWork">آلية العمل</label>
-                    <textarea class="summernote @error('mechanismWork') is-invalid @enderror" id="kt_summernote_4" name="mechanismWork"
-                        id="mechanismWork" wire:model="mechanismWork"></textarea>
+                    <div wire:ignore>
+                        <textarea class="summernote @error('mechanismWork') is-invalid @enderror" id="kt_summernote_4" name="mechanismWork"
+                            wire:model="mechanismWork"></textarea>
+                    </div>
                     @error('mechanismWork')
                         <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
@@ -89,15 +108,49 @@
     </div>
     <!--end::Entry-->
     @push('scripts')
-    <script src="{{ asset('assets/js/pages/crud/forms/editors/summernote.min.js') }}"></script>
-
-    <script>
-        jQuery(document).ready(function() {
-            $('.summernote').summernote();
-            document.addEventListener('wire:load', function () {
-            $('.summernote').summernote();
+        <script>
+            jQuery(document).ready(function() {
+                $('#kt_summernote_1').summernote({
+                    codemirror: {
+                        theme: 'monokai'
+                    },
+                    callbacks: {
+                        onChange: function(contents, $editable) {
+                            @this.set('whatOffer', contents, $editable);
+                        }
+                    }
+                });
+                $('#kt_summernote_2').summernote({
+                    codemirror: {
+                        theme: 'monokai'
+                    },
+                    callbacks: {
+                        onChange: function(contents, $editable) {
+                            @this.set('OurMessage', contents, $editable);
+                        }
+                    }
+                });
+                $('#kt_summernote_3').summernote({
+                    codemirror: {
+                        theme: 'monokai'
+                    },
+                    callbacks: {
+                        onChange: function(contents, $editable) {
+                            @this.set('whoWe', contents, $editable);
+                        }
+                    }
+                });
+                $('#kt_summernote_4').summernote({
+                    codemirror: {
+                        theme: 'monokai'
+                    },
+                    callbacks: {
+                        onChange: function(contents, $editable) {
+                            @this.set('mechanismWork', contents, $editable);
+                        }
+                    }
+                });
             });
-        });
-    </script>
+        </script>
     @endpush
 </div>

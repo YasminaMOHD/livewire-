@@ -5,7 +5,7 @@
 <head>
     <base href="">
     <meta charset="utf-8" />
-    <title>For Media</title>
+    <title>4Media</title>
     <meta name="description" content="For Media dashboard." />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!--begin::Fonts-->
@@ -16,6 +16,7 @@
     <link href="{{ asset('dist/assets//plugins/custom/fullcalendar/fullcalendar.bundle.css') }}" rel="stylesheet"
         type="text/css" />
     <!--end::Page Vendors Styles-->
+    @stack('style')
     <!--begin::Global Theme Styles(used by all pages)-->
     <link href="{{ asset('dist/assets//plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('dist/assets//plugins/custom/prismjs/prismjs.bundle.css') }}" rel="stylesheet"
@@ -23,8 +24,10 @@
     <link href="{{ asset('dist/assets//css/style.bundle.rtl.min.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Global Theme Styles-->
     <!--begin::Layout Themes(used by all pages)-->
-    <link href="{{ asset('dist/assets//css/themes/layout/header/base/light.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('dist/assets//css/themes/layout/header/menu/light.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('dist/assets//css/themes/layout/header/base/light.css') }}" rel="stylesheet"
+        type="text/css" />
+    <link href="{{ asset('dist/assets//css/themes/layout/header/menu/light.css') }}" rel="stylesheet"
+        type="text/css" />
     <link href="{{ asset('dist/assets//css/themes/layout/brand/dark.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('dist/assets//css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
@@ -39,6 +42,12 @@
         .toast-message {
             text-align: right !important;
             margin-right: 20%;
+        }
+
+        .error {
+            color: red;
+            font-size: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
@@ -161,7 +170,8 @@
                                         <!--end::Svg Icon-->
                                     </span>
                                 </span>
-                                <span class="navi-text text-muted text-hover-primary">{{ Auth::user()->email }}</span>
+                                <span
+                                    class="navi-text text-muted text-hover-primary">{{ Auth::user()->email }}</span>
                             </span>
                         </a>
                         <form action="{{ route('logout') }}" method="post">
@@ -296,6 +306,7 @@
     </div>
     <!-- end::User Panel-->
 
+
     <script>
         var HOST_URL = "https://preview.keenthemes.com/metronic/theme/html/tools/preview";
     </script>
@@ -377,54 +388,32 @@
     {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.js"></script> --}}
     <!--end::Page Scripts-->
     {{-- <script src="assets/js/scripts.bundle.js"></script> --}}
-    <script>
-        toastr.options = {
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-center",
-            "preventDuplicates": false,
-            "onclick": null,
-            "newestOnTop": true "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-
-        jQuery(document).ready(function() {
-
-            @if (Session::has('success'))
-                toastr.success("{!! Session::get('success') !!}");
-            @endif
-            @if (Session::has('error'))
-                toastr.error("{!! Session::get('error') !!}");
-            @endif
-
-        public function validate(e){
-            e.preventDefault();
-            var form = $(this);
-             Swal.fire({
-                    title: "هل أنت موافق على الحذف؟",
-                    text: "! لن يكون بإمكانك استرجاعه مره أخرى",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "موافق ، احذفه"
-                }), function (isConfirmed) {
-                   if (isConfirmed) {
-                       form.submit();
-                }
-                   return false;
-            }
-                };
-            });
-    </script>
-    {{-- script from pages --}}
     <livewire:scripts />
+    {{-- script from pages --}}
     @stack('scripts')
+    <script>
+        window.addEventListener('show-delete-confirm', event => {
+            console.log('hai');
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You wont be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Yes, delete it!"
+            }).then(function(result) {
+                if (result.isConfirmed) {
+                    livewire.emit('delete');
+                }
+            });
+        });
+        window.addEventListener('deleted-success', event => {
+            Swal.fire(
+                "Deleted!",
+                "Your file has been deleted.",
+                "success"
+            )
+        });
+    </script>
 </body>
 <!--end::Body-->
 

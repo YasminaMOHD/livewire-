@@ -3,7 +3,9 @@
 namespace App\Http\Livewire\Admin\Content;
 
 use App\Models\Content;
+use App\Models\Request;
 use Livewire\Component;
+use Illuminate\Support\Facades\Validator;
 
 class Contents extends Component
 {
@@ -14,14 +16,20 @@ class Contents extends Component
     public $mechanismWork;
     public $reqex = '<p><br></p>';
     protected $rules = [
-        'whatOffer' =>"required|max:700|not_in:<p><br></p>",
-        'OurMessage' => "required|max:700|not_in:<p><br></p>",
-        'whoWe' => "required|max:700|not_in:<p><br></p>",
-        'mechanismWork' => "required|max:700|not_in:<p><br></p>",
+        'whatOffer' =>"required",
+        'OurMessage' => "required",
+        'whoWe' => "required",
+        'mechanismWork' => "required",
     ];
-    protected $listeners = [
-        'refresh-me' => '$refresh'
+    protected $messages = [
+        'whatOffer.required' => '* هذا الحقل مطلوب',
+        'OurMessage.required' => '* هذا الحقل مطلوب',
+        'whoWe.required' => '* هذا الحقل مطلوب',
+        'mechanismWork.required' => '* هذا الحقل مطلوب',
     ];
+
+
+
 
     public function mount()
     {
@@ -42,21 +50,31 @@ class Contents extends Component
     }
 
     public function update(){
-        $this->validate();
+        $validate = $this->validate($this->rules);
+       if($validate){
             $con = Content::first();
             if($con){
             $content = $con->update(
-                [
-                    'whatOffer' => $this->whatOffer,
-                    'OurMessage' => $this->OurMessage,
-                    'whoWe' => $this->whoWe,
-                    'mechanismWork' => $this->mechanismWork,
-                ]
-            );
-            session()->put('success','تم تعديل محتوى الموقع بنجاح');
+               [
+                   'whatOffer' => $this->whatOffer,
+                   'OurMessage' => $this->OurMessage,
+                   'whoWe' => $this->whoWe,
+                   'mechanismWork' => $this->mechanismWork,
+               ]
+           );
+             if($content){
+                $this->dispatchBrowserEvent('alert',
+                ['type' => 'success',  'message' => 'تم تحديث المحتوى بنجاح']);                $this->emitself('refresh-me');
+             }else{
+                $this->dispatchBrowserEvent('alert',
+                ['type' => 'error',  'message' => 'حدث خطأ ما ، حاول مرة أخرى']);
 
-            $this->emitself('refresh-me');
+             }
             // return redirect()->route('admin.content');
         }
+    }else{
+        $this->dispatchBrowserEvent('alert',
+        ['type' => 'error',  'message' => 'حدث خطأ ما ، حاول مرة أخرى وتأكد من البيانات المدخلة']);
+    }
         }
 }

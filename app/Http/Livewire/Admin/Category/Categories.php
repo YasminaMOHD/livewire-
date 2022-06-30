@@ -5,10 +5,14 @@ namespace App\Http\Livewire\Admin\Category;
 use Livewire\Component;
 use App\Models\Category;
 use Livewire\WithPagination;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Categories extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    use AuthorizesRequests;
+
     public $name , $category_id;
     protected $rules=[
         'name' => 'required'
@@ -22,13 +26,15 @@ class Categories extends Component
 
     public function render()
     {
+        $this->authorize('view-category', Category::class);
         $categories = Category::get();
-        return view('livewire.admin.category.categories',['categories'=>$categories])
+        return view('Admin.categories',['categories'=>$categories])
         ->extends('Admin.layouts.master')
         ->section('content');
     }
 
     public function store(){
+        $this->authorize('create-category', Category::class);
         $this->validate($this->rules);
         try{
         $category = Category::create(
@@ -58,6 +64,9 @@ class Categories extends Component
         $this->dispatchBrowserEvent('show-edit-category');
     }
     public function update(){
+
+        $this->authorize('update-category', Category::class);
+
         $this->validate($this->rules);
         try{
             $category = Category::where('id',$this->category_id)->update(
@@ -87,6 +96,8 @@ class Categories extends Component
         $this->dispatchBrowserEvent('show-delete-confirm');
     }
     public function destroy(){
+
+        $this->authorize('destroy-category', Category::class);
         try{
             $category = Category::findOrFail($this->category_id);
             $category = $category->delete();

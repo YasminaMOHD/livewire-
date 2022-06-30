@@ -3,17 +3,23 @@
 namespace App\Http\Livewire\Admin\Manger;
 
 use Exception;
+use App\Models\Role;
 use App\Models\User;
 use App\Models\Manger;
 use Livewire\Component;
 use App\Models\Category;
+use App\Models\Roles_Users;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Mangers extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    use AuthorizesRequests;
+
     public $manger;
     public $manger_id , $user_id;
     public $name;
@@ -43,11 +49,12 @@ class Mangers extends Component
 
     public function render()
     {
+        $this->authorize('view-manger', Manger::class);
         $categories = Category::get();
         $mangers = Manger::with('user')->with('category')
        ->orderBy('id','desc')->paginate(20);
 
-        return view('livewire.admin.manger.mangers'
+        return view('Admin.mangers'
         , compact('categories' , 'mangers'))
         ->extends('Admin.layouts.master')
         ->section('content');
@@ -55,6 +62,7 @@ class Mangers extends Component
 
     public function store()
     {
+        $this->authorize('create-manger', Manger::class);
         $this->validate($this->rules);
         try{
         $user = User::create([
@@ -65,11 +73,18 @@ class Mangers extends Component
             'user_type' => 'manger'
         ]);
         if($user){
+            $manger = null;
             try{
+                Roles_Users::create([
+                    'user_id' => $user->id,
+                    'role_id' => Role::where('name','manger')->first()->id,
+                ]);
+
                 $manger = Manger::create([
                     'user_id' => $user->id,
                     'category_id' => $this->category,
                 ]);
+
             }catch(Exception $e){
                 User::where('id', $user->id)->delete();
                 $this->dispatchBrowserEvent('alert',
@@ -107,6 +122,8 @@ class Mangers extends Component
     }
 
     public function update(){
+
+        $this->authorize('update-manger', Manger::class);
         $this->validate([
         'name' => 'required',
         'email' => ['required' , Rule::unique('users')->ignore($this->user_id)],
@@ -150,10 +167,13 @@ class Mangers extends Component
     }
 
     public function destroy(){
+        $this->authorize('delete-manger', Manger::class);
          try{
              $user = User::findOrFail($this->user_id);
+             $role = Roles_Users::where('user_id',$user->id)->first();
              $user = $user->delete();
-             if($user){
+             $role = $role->delete();
+             if($user && $role){
               $manger = Manger::findOrFail($this->manger_id);
               $manger = $manger->delete();
               $this->dispatchBrowserEvent('deleted-success');

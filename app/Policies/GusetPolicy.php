@@ -18,7 +18,7 @@ class GusetPolicy
      */
     public function viewAny(User $user)
     {
-        //
+         $user->hasAbility('view-user',$user);
     }
 
     /**
@@ -30,7 +30,7 @@ class GusetPolicy
      */
     public function view(User $user, Guset $guset)
     {
-        //
+         $user->hasAbility('view-user',$user);
     }
 
     /**
@@ -41,7 +41,7 @@ class GusetPolicy
      */
     public function create(User $user)
     {
-        //
+        $user->hasAbility('create-user',$user);
     }
 
     /**
@@ -53,7 +53,7 @@ class GusetPolicy
      */
     public function update(User $user, Guset $guset)
     {
-        //
+        $user->hasAbility('update-user',$user);
     }
 
     /**
@@ -65,7 +65,7 @@ class GusetPolicy
      */
     public function delete(User $user, Guset $guset)
     {
-        //
+        $user->hasAbility('delete-user',$user);
     }
 
     /**

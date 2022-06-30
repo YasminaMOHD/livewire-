@@ -11,10 +11,14 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Works extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    use AuthorizesRequests;
+
     use WithFileUploads;
     public $title , $desc , $file , $category , $work_id , $work , $newFile
     , $oldFile , $reason , $filterType='all' , $filterCategory='all' , $selectWorks=[] ;
@@ -39,9 +43,10 @@ class Works extends Component
 
     public function render()
     {
+        $this->authorize('view-work', Work::class);
         $categories = Category::get();
 
-        return view('livewire.admin.work.works',[
+        return view('Admin.works',[
         'works' => $this->filter(),
         'categories'=>$categories])
         ->extends('Admin.layouts.master')
@@ -50,6 +55,8 @@ class Works extends Component
 
     public function store()
     {
+        $this->authorize('create-work', Work::class);
+
         $this->validate($this->rules);
         try{
             // upload file
@@ -101,6 +108,8 @@ class Works extends Component
     }
 
     public function update(){
+        $this->authorize('update-work', Work::class);
+
         $this->validate([
           'title' => ['required' , Rule::unique('works')->ignore($this->work_id)],
           'desc' => 'required',
@@ -173,6 +182,7 @@ class Works extends Component
             if($work){
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'warning',  'message' => 'تم رفض  نشر العمل بنجاح']);
+                $this->dispatchBrowserEvent('hide-modal');
              }
         }
     }
@@ -183,6 +193,8 @@ class Works extends Component
     }
 
     public function destroy(){
+        $this->authorize('delete-work', Work::class);
+
          try{
              $work = Work::findOrFail($this->work_id);
              $work = $work->delete();
@@ -241,6 +253,10 @@ class Works extends Component
                      $works = $work->where('status',$this->filterType)->where('category_id',$this->filterCategory)->paginate(20);
                     }
             }
+        }
+        $is_main=Work::where('is_main',1)->select('id')->get(6);
+        foreach($is_main as $key=>$i){
+            $this->selectWorks[$key] = $i->id;
         }
         return $works;
 

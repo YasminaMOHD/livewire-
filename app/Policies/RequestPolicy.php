@@ -18,7 +18,7 @@ class RequestPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        $user->hasAbility('view-request',Request::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class RequestPolicy
      */
     public function view(User $user, Request $request)
     {
-        //
+        $user->hasAbility('view-request',$request);
     }
 
     /**
@@ -41,7 +41,7 @@ class RequestPolicy
      */
     public function create(User $user)
     {
-        //
+        $user->hasAbility('create-request',Request::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class RequestPolicy
      */
     public function update(User $user, Request $request)
     {
-        //
+          $user->hasAbility('update-request',$request);
     }
 
     /**
@@ -65,7 +65,7 @@ class RequestPolicy
      */
     public function delete(User $user, Request $request)
     {
-        //
+          $user->hasAbility('delete-request',$request);
     }
 
     /**

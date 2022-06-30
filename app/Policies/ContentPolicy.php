@@ -18,7 +18,7 @@ class ContentPolicy
      */
     public function viewAny(User $user)
     {
-        //
+         $user->hasAbility('view-content',Content::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class ContentPolicy
      */
     public function view(User $user, Content $content)
     {
-        //
+         $user->hasAbility('view-content',$content);
     }
 
     /**

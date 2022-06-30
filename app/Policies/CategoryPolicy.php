@@ -18,7 +18,7 @@ class CategoryPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        $user->hasAbility('view-category',Category::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class CategoryPolicy
      */
     public function view(User $user, Category $category)
     {
-        //
+        $user->hasAbility('view-category',$category);
     }
 
     /**
@@ -41,7 +41,7 @@ class CategoryPolicy
      */
     public function create(User $user)
     {
-        //
+        $user->hasAbility('create-category',Category::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class CategoryPolicy
      */
     public function update(User $user, Category $category)
     {
-        //
+        $user->hasAbility('update-ctegory',$category);
     }
 
     /**
@@ -65,7 +65,7 @@ class CategoryPolicy
      */
     public function delete(User $user, Category $category)
     {
-        //
+        $user->hasAbility('delete-category',$category);
     }
 
     /**

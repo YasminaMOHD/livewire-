@@ -1,0 +1,38 @@
+.cart-header{background: rgb(74,74,74);}
+ul{padding-left: 0}
+.cart-header ul li , .cart-bar ul li ,.cart-item ul li{display: inline-block; color:  #969696;font-size: 16px;font-weight: 500}
+.cart-header ul li a {color: #969696}
+.cart-header ul li a:hover , .product-bar ul li:hover, .cart-item .col-lg a:hover{color: rgb(47,206,154)}
+.cart-header h3{color: #fff; font-size: 36px;font-weight: bold}
+.cart-bar ul li ,.cart-item ul li{color: #000;padding-right: 45px}
+.cart-item .col-lg-1  , .cart-item .col-lg a{font-size: 18px;font-weight: 500;color: #4a4a4a}
+.cart-item .col-lg p{font-size: 13px;font-weight: 300;color: #4a4a4a}
+.cart-item .col-lg-6 ul li span{display: none}
+.cart-item .col-lg-6 ul li #minaus ,.cart-item .col-lg-6 ul li #plus,.cart-item .col-lg-6 ul li #val-quant{display: inline-block;cursor: pointer}
+.cart-item .col-lg-6 ul #quantity{border: 2px solid rgb(150,150,150)}
+.cart-item .col-lg-6 ul #total{padding-left: 40px}
+.cart-item .col-lg-6 ul li #minaus:hover ,.cart-item .col-lg-6 ul li #plus:hover{
+    color: #c69500;
+}
+.cart-item .col-lg-6 ul li #minaus ,.cart-item .col-lg-6 ul li #plus{color:#0F9E5E;font-weight: bold;font-size: 20px}
+.extra-cart .col-lg-6,.extra-cart .col-lg{background: rgb(248,248,248)}
+.extra-cart .col-lg-6 h3,.extra-cart .col-lg h3{font-size: 24px;font-weight: bold;color: #4a4a4a}
+.extra-cart .col-lg-6 p{font-size: 14px;font-weight: 300;color: #4a4a4a}
+.color-label{color: #0f9d58;}
+/*الزر الي ضغطت عليه الكلام الي جنبه */
+/* input[type="radio"]:checked+label{ color: rgb(33,136,56) } */
+.extra-cart{color: #838383}
+.color-cart{background: #fff;}
+@media (max-width: 991px) {
+    .cart-bar{display: none}
+    .cart-item .col-lg-1{text-align: left;padding-bottom: 15px}
+    .cart-item .col-lg-2{padding-bottom: 10px}
+    .cart-item .col-lg {margin-left: 0}
+    .cart-item .col-lg-6 ul li span,.cart-item .col-lg-6 ul span{display: inline-block}
+    .cart-item .col-lg-6 ul li{display: block;margin-bottom: 12px}
+    .cart-item .col-lg-6 ul #quantity{display: inline-block}
+    .cart-item .col-lg-6 ul  #total{margin: 0 ;padding: 0}
+    .btn-cart button{margin-bottom: 10px;}
+    /* .extra-cart .radio-menu  label{font-size: 8px} */
+    /*.extra-cart .col-lg-6 {margin-right: 0}*/
+}

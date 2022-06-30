@@ -33,6 +33,11 @@ class Service extends Component
 
     public function render()
     {
+        if(Auth::check()){
+            $this->name = Auth::user()->name;
+            $this->email = Auth::user()->email;
+            $this->phone = Auth::user()->phone;
+        }
         $categories = Category::get();
         return view('website.service' , compact('categories'))->extends('website.layouts.master')
         ->section('content');

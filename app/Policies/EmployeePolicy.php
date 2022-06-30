@@ -18,7 +18,7 @@ class EmployeePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        $user->hasAbility('view-employee',Employee::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class EmployeePolicy
      */
     public function view(User $user, Employee $employee)
     {
-        //
+        $user->hasAbility('view-employee',$employee);
     }
 
     /**
@@ -41,7 +41,7 @@ class EmployeePolicy
      */
     public function create(User $user)
     {
-        //
+        $user->hasAbility('create-employee',Employee::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class EmployeePolicy
      */
     public function update(User $user, Employee $employee)
     {
-        //
+        $user->hasAbility('update-employee',$employee);
     }
 
     /**
@@ -65,7 +65,7 @@ class EmployeePolicy
      */
     public function delete(User $user, Employee $employee)
     {
-        //
+        $user->hasAbility('delete-employee',$employee);
     }
 
     /**

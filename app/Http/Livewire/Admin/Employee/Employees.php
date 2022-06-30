@@ -2,17 +2,23 @@
 
 namespace App\Http\Livewire\Admin\Employee;
 
+use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
 use App\Models\Category;
 use App\Models\Employee;
+use App\Models\Roles_Users;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Employees extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    use AuthorizesRequests;
+
     public $employee;
     public $employee_id , $user_id;
     public $name;
@@ -42,11 +48,12 @@ class Employees extends Component
 
     public function render()
     {
+        $this->authorize('view-employee', Employee::class);
         $categories = Category::get();
         $employees = Employee::with('user')->with('category')
        ->orderBy('id','desc')->paginate(20);
 
-        return view('livewire.admin.employee.employees'
+        return view('Admin.employees'
         , compact('categories' , 'employees'))
         ->extends('Admin.layouts.master')
         ->section('content');
@@ -54,6 +61,7 @@ class Employees extends Component
 
     public function store()
     {
+        $this->authorize('create-employee', Employee::class);
         $this->validate($this->rules);
         try{
         $user = User::create([
@@ -65,6 +73,10 @@ class Employees extends Component
         ]);
         if($user){
             try{
+                Roles_Users::create([
+                    'user_id' => $user->id,
+                    'role_id' => Role::where('name','employee')->first()->id,
+                ]);
                 $employee = Employee::create([
                     'user_id' => $user->id,
                     'category_id' => $this->category,
@@ -106,6 +118,8 @@ class Employees extends Component
     }
 
     public function update(){
+
+        $this->authorize('update-employee', Employee::class);
         $this->validate([
         'name' => 'required',
         'email' => ['required' , Rule::unique('users')->ignore($this->user_id)],
@@ -149,10 +163,14 @@ class Employees extends Component
     }
 
     public function destroy(){
+
+        $this->authorize('delete-employee', Employee::class);
          try{
              $user = User::findOrFail($this->user_id);
+             $role = Roles_Users::where('user_id',$user->id)->first();
              $user = $user->delete();
-             if($user){
+             $role = $role->delete();
+             if($user && $role){
               $employee = Employee::findOrFail($this->employee_id);
               $employee = $employee->delete();
               $this->dispatchBrowserEvent('deleted-success');

@@ -4,7 +4,11 @@
           <a href="{{route('index')}}" data-page-id="2471024764" class="u-image u-logo u-image-1" data-image-width="900" data-image-height="277" title="الرئيسية">
             <img src="{{asset('website/images/logo.png')}}" class="u-logo-image u-logo-image-1">
           </a>
-          <a href="file:///C:/Users/rant/Downloads/Documents/null.pdf" class="u-border-2 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-btn-round u-button-style u-hover-custom-color-2 u-none u-radius-17 u-btn-1" target="_blank">بروفايل الشركة</a>
+          @if(Auth::check())
+          <a href="{{route('admin.setting')}}" class="u-border-2 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-btn-round u-button-style u-hover-custom-color-2 u-none u-radius-17 u-btn-1" target="_blank">حسابي</a>
+          @else
+          <a href="{{route('login')}}" class="u-border-2 u-border-custom-color-2 u-border-hover-custom-color-2 u-btn u-btn-round u-button-style u-hover-custom-color-2 u-none u-radius-17 u-btn-1" target="_blank">تسجيل دخول</a>
+          @endif
           <nav class="u-align-center u-menu u-menu-one-level u-offcanvas u-offcanvas-shift u-menu-1" data-responsive-from="MD">
             <div class="menu-collapse" style="font-size: 1rem; letter-spacing: 0px; font-weight: 700;">
               <a class="u-button-style u-custom-active-border-color u-custom-active-color u-custom-border u-custom-border-color u-custom-borders u-custom-hover-border-color u-custom-hover-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-hover-color u-custom-text-shadow u-custom-text-shadow-blur u-custom-text-shadow-color u-custom-text-shadow-transparency u-custom-text-shadow-x u-custom-text-shadow-y u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#" style="padding: 4px 0px; font-size: calc(1em + 8px);">

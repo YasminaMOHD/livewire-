@@ -18,7 +18,7 @@ class WorkPolicy
      */
     public function viewAny(User $user)
     {
-        //
+          $user->hasAbility('view-work',Work::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class WorkPolicy
      */
     public function view(User $user, Work $work)
     {
-        //
+          $user->hasAbility('view-work',$work);
     }
 
     /**
@@ -41,7 +41,7 @@ class WorkPolicy
      */
     public function create(User $user)
     {
-        //
+          $user->hasAbility('create-work',Work::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class WorkPolicy
      */
     public function update(User $user, Work $work)
     {
-        //
+          $user->hasAbility('update-work',$work);
     }
 
     /**
@@ -65,7 +65,7 @@ class WorkPolicy
      */
     public function delete(User $user, Work $work)
     {
-        //
+        $user->hasAbility('delete-request',$work);
     }
 
     /**

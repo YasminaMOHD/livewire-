@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Role;
 use App\Models\Manger;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Jetstream\HasProfilePhoto;
@@ -56,4 +57,15 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function hasAbility($ability){
+        $role = Role::whereRaw('name = ?',[$this->user_type])->get();
+        if($role){
+            foreach($role as $r){
+                if(in_array($ability, $r->permissions)){
+                    return true;
+                }
+            }
+            return false;
+        }
+    }
 }

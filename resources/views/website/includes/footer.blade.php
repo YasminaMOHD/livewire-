@@ -1,3 +1,6 @@
+<span class="image-contact wats-image-contact u-file-icon u-hover-feature u-icon u-icon-circle u-palette-4-dark-1 u-icon-1" data-href="tel:+966 57 886 9261"><img src="{{asset('website/images/17.png')}}" alt="">
+</span><span class="image-contact arrow-image-contact  u-dialog-link u-file-icon u-hover-feature u-icon u-icon-circle u-opacity u-opacity-95 u-palette-1-base u-icon-2" data-href="#https://nicepage.com"><img src="{{asset('website/images/18.png')}}" alt=""></span>
+
 <footer class="u-align-center u-clearfix u-footer u-gradient u-footer" id="sec-b2be" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><div class="u-clearfix u-sheet u-sheet-1">
     <img class="u-align-center u-image u-image-default u-image-1" src="{{asset('website/images/logo-11.png')}}" alt="" data-image-width="900" data-image-height="277">
     <div class="u-align-center u-container-style u-group u-group-1">
@@ -5,7 +8,7 @@
         data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{{asset('website/images/6.png')}}" alt=""></span><span class="u-border-2 u-border-palette-1-base u-file-icon u-hover-feature u-icon u-icon-circle u-spacing-10 u-text-palette-1-base u-icon-4" data-href="tel:+966 57 886 9261" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{{asset('website/images/7.png')}}" alt=""></span><span class="u-border-2 u-border-palette-1-base u-file-icon u-hover-feature u-icon u-icon-circle u-spacing-10 u-text-palette-1-base u-icon-5" data-href="mailto:Formediacompany@gmail.com" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><img src="{{asset('website/images/8.png')}}" alt=""></span>
       </div>
     </div>
-    <a href="services.html" data-page-id="1881306966" class="u-align-center u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-20 u-btn-1" target="_blank">اطلب خدمة</a>
+    <a href="{{route('service')}}" data-page-id="1881306966" class="u-align-center u-btn u-btn-round u-button-style u-hover-palette-1-light-1 u-palette-1-base u-radius-20 u-btn-1" target="_blank">اطلب خدمة</a>
     <p class="u-text u-text-custom-color-6 u-text-1"> © For Media . All Rights Reserved.</p>
   </div>
 </footer>

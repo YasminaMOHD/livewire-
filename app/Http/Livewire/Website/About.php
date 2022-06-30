@@ -2,13 +2,15 @@
 
 namespace App\Http\Livewire\Website;
 
+use App\Models\Content;
 use Livewire\Component;
 
 class About extends Component
 {
     public function render()
     {
-        return view('website.about')->extends('website.layouts.master')
+        $content = Content::first();
+        return view('website.about',compact('content'))->extends('website.layouts.master')
         ->section('content');
     }
 }

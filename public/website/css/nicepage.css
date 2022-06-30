@@ -3,12 +3,29 @@
  * License https://froala.com/wysiwyg-editor/terms/
  * Copyright 2014-2021 Froala Labs
  */
-
 .fr-clearfix::after {
   clear: both;
   display: block;
   content: "";
   height: 0; }
+  .image-contact{
+    width:55px ;
+    padding: 15px;
+    border-radius: 50%;
+    position: fixed;
+    display: block;
+    z-index: 999999999999999999;
+    bottom: 10%;
+    left: 5%;
+    margin-bottom: 70px;
+ }
+ .wats-image-contact{
+     background-color: #2cccc4;
+     margin-bottom: 0;
+ }
+ .arrow-image-contact{
+     background-color: #478ac9;
+ }
 
 .fr-hide-by-clipping {
   position: absolute;
@@ -5770,12 +5787,31 @@ section.u-image:not(.u-hover-box),
   position: relative;
 }
 .u-expanded {
-  position: absolute !important;
+  /* position: absolute !important; */
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
 }
+.favourite{
+    position: absolute;
+    display: block;
+    font-size: 30px;
+    height: 30px;
+    color: #000;
+    /* background: #000; */
+    width: 50px;
+    cursor: pointer;
+    /* border-radius: 50%; */
+    height: 50px;
+    background: #fff;
+    /* top: -10px; */
+    z-index: 99;
+    text-align: center;
+    /* flex-direction: row-reverse; */
+    border-bottom-right-radius: 50%;
+}
+
 .u-expanded-width {
   width: 100% !important;
   margin-left: 0 !important;
@@ -11142,6 +11178,9 @@ section.u-image:not(.u-hover-box),
 @supports (position: sticky) {
   .u-header.u-sticky {
     position: sticky;
+    background: #fff;
+    /* box-shadow: 0px 3px 6px #00000029; */
+    opacity: 0.79;
   }
 }
 @supports (position: -webkit-sticky) {
@@ -13021,7 +13060,7 @@ section.u-image:not(.u-hover-box),
   height: 100%;
 }
 .u-icon {
-  display: block;
+  display: flex;
   line-height: 0;
   border-width: 0px;
 }
@@ -16778,6 +16817,7 @@ a.pswp__share--download:hover {
 }
 .u-lightbox .u-image,
 .u-lightbox .u-gallery-item {
+    height:100%;
   cursor: pointer;
 }
 /*end-commonstyles photoswipe-default*/
@@ -36026,8 +36066,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: #ffffff !important;
         }
 
-        
-        
+
+
         .u-custom-color-2,
         .u-body.u-custom-color-2,
         .u-custom-color-2 > .u-container-layout:before,
@@ -36090,8 +36130,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: #25a6d9 !important;
         }
 
-        
-        
+
+
         .u-custom-color-4,
         .u-body.u-custom-color-4,
         .u-custom-color-4 > .u-container-layout:before,
@@ -36154,8 +36194,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: #3f3f40 !important;
         }
 
-        
-        
+
+
         .u-custom-color-5,
         .u-body.u-custom-color-5,
         .u-custom-color-5 > .u-container-layout:before,
@@ -36218,8 +36258,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: rgba(242,242,242,0.22) !important;
         }
 
-        
-        
+
+
         .u-custom-color-6,
         .u-body.u-custom-color-6,
         .u-custom-color-6 > .u-container-layout:before,
@@ -36282,8 +36322,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: #585859 !important;
         }
 
-        
-        
+
+
         .u-custom-color-7,
         .u-body.u-custom-color-7,
         .u-custom-color-7 > .u-container-layout:before,
@@ -36346,8 +36386,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: #79bed9 !important;
         }
 
-        
-        
+
+
         .u-custom-color-8,
         .u-body.u-custom-color-8,
         .u-custom-color-8 > .u-container-layout:before,
@@ -36410,8 +36450,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: rgba(121,190,217,0.28) !important;
         }
 
-        
-        
+
+
         .u-custom-color-9,
         .u-body.u-custom-color-9,
         .u-custom-color-9 > .u-container-layout:before,
@@ -36474,8 +36514,8 @@ a.u-link.u-text-hover-grey-90:hover {
             color: rgba(0,107,222,0.95) !important;
         }
 
-        
-        
+
+
         .u-custom-color-10,
         .u-body.u-custom-color-10,
         .u-custom-color-10 > .u-container-layout:before,
@@ -36538,9 +36578,9 @@ a.u-link.u-text-hover-grey-90:hover {
             color: #7d7d7d !important;
         }
 
-        
 
-        
+
+
         .u-border-custom-color-1,
         .u-separator-custom-color-1:after
         {
@@ -36587,8 +36627,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: #e6e6e6 !important;
         }
-        
-        
+
+
         .u-border-custom-color-2,
         .u-separator-custom-color-2:after
         {
@@ -36635,8 +36675,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: #2195c3 !important;
         }
-        
-        
+
+
         .u-border-custom-color-4,
         .u-separator-custom-color-4:after
         {
@@ -36683,8 +36723,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: #39393a !important;
         }
-        
-        
+
+
         .u-border-custom-color-5,
         .u-separator-custom-color-5:after
         {
@@ -36731,8 +36771,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: rgba(218,218,218,0.22) !important;
         }
-        
-        
+
+
         .u-border-custom-color-6,
         .u-separator-custom-color-6:after
         {
@@ -36779,8 +36819,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: #4f4f50 !important;
         }
-        
-        
+
+
         .u-border-custom-color-7,
         .u-separator-custom-color-7:after
         {
@@ -36827,8 +36867,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: #5fb1d2 !important;
         }
-        
-        
+
+
         .u-border-custom-color-8,
         .u-separator-custom-color-8:after
         {
@@ -36875,8 +36915,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: rgba(95,177,210,0.28) !important;
         }
-        
-        
+
+
         .u-border-custom-color-9,
         .u-separator-custom-color-9:after
         {
@@ -36923,8 +36963,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: rgba(0,96,200,0.95) !important;
         }
-        
-        
+
+
         .u-border-custom-color-10,
         .u-separator-custom-color-10:after
         {
@@ -36971,9 +37011,9 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             border-color: #717171 !important;
         }
-        
 
-        
+
+
         .u-text-custom-color-1,
         li.active > a.u-button-style.u-text-custom-color-1,
         li.active > a.u-button-style.u-text-custom-color-1[class*="u-border-"],
@@ -37037,8 +37077,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: #ffffff !important;
         }
-        
-        
+
+
         .u-text-custom-color-2,
         li.active > a.u-button-style.u-text-custom-color-2,
         li.active > a.u-button-style.u-text-custom-color-2[class*="u-border-"],
@@ -37102,8 +37142,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: #25a6d9 !important;
         }
-        
-        
+
+
         .u-text-custom-color-4,
         li.active > a.u-button-style.u-text-custom-color-4,
         li.active > a.u-button-style.u-text-custom-color-4[class*="u-border-"],
@@ -37167,8 +37207,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: #3f3f40 !important;
         }
-        
-        
+
+
         .u-text-custom-color-5,
         li.active > a.u-button-style.u-text-custom-color-5,
         li.active > a.u-button-style.u-text-custom-color-5[class*="u-border-"],
@@ -37232,8 +37272,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: rgba(242,242,242,0.22) !important;
         }
-        
-        
+
+
         .u-text-custom-color-6,
         li.active > a.u-button-style.u-text-custom-color-6,
         li.active > a.u-button-style.u-text-custom-color-6[class*="u-border-"],
@@ -37297,8 +37337,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: #585859 !important;
         }
-        
-        
+
+
         .u-text-custom-color-7,
         li.active > a.u-button-style.u-text-custom-color-7,
         li.active > a.u-button-style.u-text-custom-color-7[class*="u-border-"],
@@ -37362,8 +37402,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: #79bed9 !important;
         }
-        
-        
+
+
         .u-text-custom-color-8,
         li.active > a.u-button-style.u-text-custom-color-8,
         li.active > a.u-button-style.u-text-custom-color-8[class*="u-border-"],
@@ -37427,8 +37467,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: rgba(121,190,217,0.28) !important;
         }
-        
-        
+
+
         .u-text-custom-color-9,
         li.active > a.u-button-style.u-text-custom-color-9,
         li.active > a.u-button-style.u-text-custom-color-9[class*="u-border-"],
@@ -37492,8 +37532,8 @@ a.u-link.u-text-hover-grey-90:hover {
         {
             color: rgba(0,107,222,0.95) !important;
         }
-        
-        
+
+
         .u-text-custom-color-10,
         li.active > a.u-button-style.u-text-custom-color-10,
         li.active > a.u-button-style.u-text-custom-color-10[class*="u-border-"],
@@ -37560,105 +37600,105 @@ a.u-link.u-text-hover-grey-90:hover {
 
         .u-body
         {
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         --theme-sheet-width-xl: 1140px;
         --theme-sheet-width-lg: 940px;
         --theme-sheet-width-md: 720px;
         --theme-sheet-width-sm: 540px;
         --theme-sheet-width-xs: 340px;
-        
-        
-        
-        
-        
-        
+
+
+
+
+
+
         }
 
         /** common-rules **/
@@ -37821,7 +37861,7 @@ a.u-link.u-text-hover-grey-90:hover {
         /*end-media rules*/
         /** publish-rules **/
 
-        
+
 
         /** cms-rules **/
         /*begin-responsive rules*/
@@ -37944,7 +37984,7 @@ a.u-link.u-text-hover-grey-90:hover {
         color: #ffffff;
         }
         /** alt-color-rules **/
-    
+
 
 
 /*end-variables sitestylecss*/
@@ -38584,9 +38624,9 @@ a.u-link.u-text-hover-grey-90:hover {
 }
 .u-footer .u-icon-5 {
     border-style: solid !important
-} 
+}
 
 
- /*begin-variables base-font-size*/ 
+ /*begin-variables base-font-size*/
  html { font-size: 16px; }
  /*end-variables base-font-size*/

@@ -9,7 +9,7 @@
     <meta name="description" content="For Media dashboard." />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <!--begin::Fonts-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700" />
+    <link href="https://fonts.googleapis.com/css2?family=Jomhuria&family=Lateef&family=Mirza&display=swap" rel="stylesheet">
     <!--end::Fonts-->
     <!--begin::Page Vendors Styles(used by this page)-->
     <livewire:styles />
@@ -32,6 +32,10 @@
     <link href="{{ asset('dist/assets//css/themes/layout/aside/dark.css') }}" rel="stylesheet" type="text/css" />
     <!--end::Layout Themes-->
     <link rel="shortcut icon" href="{{ asset('dist/assets//media/logos/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ asset('css/font.css') }}" />
+    <link rel="icon" href="{{asset('website/images/logo.png')}}">
+    @stack('styles')
+
     <style>
         .menu-text {
             /* display: inli !important; */
@@ -49,6 +53,10 @@
             font-size: 10px;
             font-weight: bold;
         }
+        nav svg{
+            max-height: 20px;
+        }
+
     </style>
 </head>
 <!--end::Head-->
@@ -390,7 +398,6 @@
     {{-- <script src="assets/js/scripts.bundle.js"></script> --}}
     <livewire:scripts />
     {{-- script from pages --}}
-    @stack('scripts')
     <script>
         window.addEventListener('show-delete-confirm', event => {
             console.log('hai');
@@ -414,6 +421,7 @@
             )
         });
     </script>
+    @stack('scripts')
 </body>
 <!--end::Body-->
 

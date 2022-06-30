@@ -6,9 +6,11 @@ use App\Models\Content;
 use App\Models\Request;
 use Livewire\Component;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Contents extends Component
 {
+    use AuthorizesRequests;
     public $content;
     public $whatOffer;
     public $OurMessage;
@@ -42,7 +44,9 @@ class Contents extends Component
 
     public function render()
     {
-        return view('livewire.admin.content.contents',['content' => $this->content])
+        $this->authorize('view-content', Content::class);
+
+        return view('Admin.contents',['content' => $this->content])
         ->extends('Admin.layouts.master')
         ->section('content');
 

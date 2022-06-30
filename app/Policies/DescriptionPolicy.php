@@ -18,7 +18,7 @@ class DescriptionPolicy
      */
     public function viewAny(User $user)
     {
-        //
+         $user->hasAbility('view-description',Description::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class DescriptionPolicy
      */
     public function view(User $user, Description $description)
     {
-        //
+         $user->hasAbility('view-description',$description);
     }
 
     /**
@@ -41,7 +41,7 @@ class DescriptionPolicy
      */
     public function create(User $user)
     {
-        //
+         $user->hasAbility('create-description',Description::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class DescriptionPolicy
      */
     public function update(User $user, Description $description)
     {
-        //
+         $user->hasAbility('update-description',$description);
     }
 
     /**
@@ -65,7 +65,7 @@ class DescriptionPolicy
      */
     public function delete(User $user, Description $description)
     {
-        //
+         $user->hasAbility('delete-description',$description);
     }
 
     /**

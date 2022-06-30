@@ -32,4 +32,16 @@ class Request extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+
+    public function scopeSearch($query , $term){
+        $term = "%$term%";
+        $query->where(function($query) use ($term){
+            $query->where('project_name','like',$term);
+        });
+
+    }
+    public function rate()
+    {
+       return $this->hasMany(Rate::class);
+    }
 }

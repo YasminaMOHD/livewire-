@@ -18,7 +18,7 @@ class MangerPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        $user->hasAbility('view-manger',Manger::class);
     }
 
     /**
@@ -30,7 +30,7 @@ class MangerPolicy
      */
     public function view(User $user, Manger $manger)
     {
-        //
+        $user->hasAbility('view-manger',$manger);
     }
 
     /**
@@ -41,7 +41,7 @@ class MangerPolicy
      */
     public function create(User $user)
     {
-        //
+        $user->hasAbility('create-manger',Manger::class);
     }
 
     /**
@@ -53,7 +53,7 @@ class MangerPolicy
      */
     public function update(User $user, Manger $manger)
     {
-        //
+        $user->hasAbility('update-manger',$manger);
     }
 
     /**
@@ -65,7 +65,7 @@ class MangerPolicy
      */
     public function delete(User $user, Manger $manger)
     {
-        //
+        $user->hasAbility('delete-manger',$manger);
     }
 
     /**

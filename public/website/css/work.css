@@ -2,8 +2,8 @@
 
 *{
 
-  font-family: 'Tajawal', sans-serif !important;
- 
+  font-family: 'Tajawal', sans-serif;
+
 }
 .u-section-1 {
   min-height: 1068px;
@@ -14,7 +14,19 @@
   width: 1045px;
   margin: 0 auto;
 }
-
+.rate-section{
+    position: absolute;
+    display: block;
+    /* bottom: 3%; */
+    z-index: 999999999;
+    width: 100%;
+    text-align: center;
+    bottom: 5%;
+    display: none;
+}
+.work:hover >  .rate-section{
+    display: block;
+}
 .u-section-1 .u-tab-item-1 {
   margin-top: 0;
   margin-bottom: 5px;

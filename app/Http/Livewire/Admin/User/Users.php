@@ -5,10 +5,14 @@ namespace App\Http\Livewire\Admin\User;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Users extends Component
 {
     use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+    use AuthorizesRequests;
+
     public $user;
     public $user_id;
     public $name;
@@ -21,9 +25,10 @@ class Users extends Component
 
     public function render()
     {
+        $this->authorize('view-user', User::class);
         $users = User::where('user_type','user')->orderBy('id','desc')->paginate(20);
 
-        return view('livewire.admin.user.users',['users'=>$users])
+        return view('Admin.users',['users'=>$users])
         ->extends('Admin.layouts.master')
         ->section('content');
     }
@@ -34,6 +39,7 @@ class Users extends Component
     }
 
     public function destroy(){
+        $this->authorize('delete-user', User::class);
          try{
              $user = User::findOrFail($this->user_id);
              $user = $user->delete();

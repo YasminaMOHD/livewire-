@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Rate;
 use App\Models\User;
 use App\Models\Guset;
 use App\Models\Category;
@@ -32,6 +33,10 @@ class Request extends Model
     public function category(){
         return $this->belongsTo(Category::class);
     }
+    public function rate()
+    {
+       return $this->hasOne(Rate::class);
+    }
 
     public function scopeSearch($query , $term){
         $term = "%$term%";
@@ -40,8 +45,5 @@ class Request extends Model
         });
 
     }
-    public function rate()
-    {
-       return $this->hasMany(Rate::class);
-    }
+
 }

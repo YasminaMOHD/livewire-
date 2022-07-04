@@ -1,5 +1,5 @@
-<span class="image-contact wats-image-contact u-file-icon u-hover-feature u-icon u-icon-circle u-palette-4-dark-1 u-icon-1" data-href="tel:+966 57 886 9261"><img src="{{asset('website/images/17.png')}}" alt="">
-</span><span class="image-contact arrow-image-contact  u-dialog-link u-file-icon u-hover-feature u-icon u-icon-circle u-opacity u-opacity-95 u-palette-1-base u-icon-2" data-href="#https://nicepage.com"><img src="{{asset('website/images/18.png')}}" alt=""></span>
+<span class="image-contact wats-image-contact u-file-icon u-hover-feature u-icon u-icon-circle u-palette-4-dark-1 u-icon-1" data-href="https://wa.me/+966578869261" data-target="_blank" style="cursor: pointer"><img src="{{asset('website/images/17.png')}}" alt="">
+</span><span class="image-contact arrow-image-contact  u-dialog-link u-file-icon u-hover-feature u-icon u-icon-circle u-opacity u-opacity-95 u-palette-1-base u-icon-2 top-button" style="display: none;cursor: pointer;"><img src="{{asset('image/18.png')}}" alt=""></span>
 
 <footer class="u-align-center u-clearfix u-footer u-gradient u-footer" id="sec-b2be" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction=""><div class="u-clearfix u-sheet u-sheet-1">
     <img class="u-align-center u-image u-image-default u-image-1" src="{{asset('website/images/logo-11.png')}}" alt="" data-image-width="900" data-image-height="277">

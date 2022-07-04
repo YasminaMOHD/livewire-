@@ -36,10 +36,10 @@ class Contents extends Component
     public function mount()
     {
         $this->content = Content::first();
-        $this->whatOffer = $this->content->whatOffer;
-        $this->OurMessage = $this->content->OurMessage;
-        $this->whoWe = $this->content->whoWe;
-        $this->mechanismWork = $this->content->mechanismWork;
+        $this->whatOffer = $this->content ? $this->content->whatOffer : "";
+        $this->OurMessage = $this->content ? $this->content->OurMessage : "";
+        $this->whoWe = $this->content ? $this->content->whoWe : "";
+        $this->mechanismWork = $this->content ? $this->content->mechanismWork : "";
     }
 
     public function render()

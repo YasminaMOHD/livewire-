@@ -146,6 +146,8 @@
                                             data-dismiss="modal">إلغاء</button>
                                         <button class="btn btn-success" type="submit" name="submit"
                                             onclick="javascript:void(0)">إضافة مدير</button>
+                                            <div wire:loading wire:target="store"><i class="fas fa-spinner fa-spin"></i></div>
+
                                     </div>
                                 </form>
                             </div>
@@ -268,6 +270,8 @@
                                                     data-dismiss="modal">إلغاء</button>
                                                 <button class="btn btn-success" type="submit" name="update"
                                                      onclick="javascript:void(0)">تعديل</button>
+                                                     <div wire:loading wire:target="update"><i class="fas fa-spinner fa-spin"></i></div>
+
                                             </div>
                                         </form>
                                     </div>

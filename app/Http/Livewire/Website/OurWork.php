@@ -7,11 +7,14 @@ use App\Models\Work;
 use Livewire\Request;
 use Livewire\Component;
 use App\Models\Favorite;
+use Livewire\WithPagination;
 use App\Http\Traits\AddFavorites;
 use Illuminate\Support\Facades\Auth;
 
 class OurWork extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     use AddFavorites;
     public $work_id=-1, $store_rating;
 

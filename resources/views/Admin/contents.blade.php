@@ -102,6 +102,8 @@
                 <div class="form-group text-center align-center">
                     <button class="btn btn-primary w-50 text-center" style="font-size: 17px;font-weight: bold">تعديل
                         المحتوى</button>
+                        <div wire:loading wire:target="update"><i class="fas fa-spinner fa-spin"></i></div>
+
                 </div>
             </form>
         </div>

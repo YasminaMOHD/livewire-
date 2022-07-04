@@ -41,7 +41,7 @@
     <section class="u-align-center u-clearfix u-white u-section-2" id="carousel_7f42">
       <div class="u-clearfix u-sheet u-valign-middle-sm u-sheet-1">
         <h2 class="u-align-center u-text u-text-custom-color-2 u-text-1">ماذا نقدم؟</h2>
-        <p class="u-align-center-sm u-align-center-xs u-text u-text-custom-color-4 u-text-2">{{$content->whatOffer}}</p>
+        <p class="u-align-center-sm u-align-center-xs u-text u-text-custom-color-4 u-text-2">{{$content ?$content->whatOffer : ""}}</p>
         <div class="u-border-3 u-border-palette-1-base u-line u-line-horizontal u-opacity u-opacity-20 u-line-1"></div>
         <div class="u-clearfix u-custom-color-5 u-expanded-width-xs u-gutter-6 u-layout-spacing-all u-layout-wrap u-layout-wrap-1">
           <div class="u-layout">
@@ -217,7 +217,7 @@
                 <div class="u-container-layout u-container-layout-2">
                   <h2 class="u-align-center-sm u-align-center-xs u-align-right-lg u-align-right-md u-align-right-xl u-text u-text-custom-color-2 u-text-default-lg u-text-default-md u-text-default-sm u-text-default-xl u-text-1" data-animation-out="1">رسالتنا</h2>
                   <p class="u-align-center-sm u-align-center-xs u-align-right-md u-text u-text-custom-color-4 u-text-2" data-animation-name="customAnimationIn" data-animation-duration="1000" data-animation-direction="">
-                    {{$content->OurMessage}}
+                    {!!$content ?$content->OurMessage : "" !!}
                   </p>
                 </div>
               </div>

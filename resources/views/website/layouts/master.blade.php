@@ -76,6 +76,7 @@
     <script src="{{ asset('dist/assets/js/pages/features/miscellaneous/sweetalert2.min.js') }}"></script>
      @stack('scripts')
      <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+     <script src="{{asset('js/js.js')}}"></script>
 
 </body>
 </html>

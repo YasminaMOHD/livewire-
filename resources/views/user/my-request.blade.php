@@ -73,14 +73,18 @@
                                 <div class="col-md-2 col-4"><span>{{$request->category->name}}</span></div>
                                 <div class="col-md-3 col-4"><span> {{$request->otherInfo}}</span></div>
                                 <div class="col-md-2 col-4">
-                                    @if($request->status == 4 || $request->status == 5)
-                                    <span class="text-warning">{{$request->status}}</span>
+                                    @if($request->status == 4)
+                                    <span class="text-warning">قيد التنفيذ</span>
+                               @elseif($request->status == 5)
+                                    <span class="text-success">مكتمل</span>
                                @else
                                    <span class="text-primary">تم الإرسال</span>
                                @endif
                                 </div>
+                                @if($request->status == 5)
                                 <div class="col-md"> <button class="btn btn-warning" style="font-size: 11px !important" wire:click.prevent="showRate({{ $request->id }})"> ⭐ تقييم
                                     العمل</button></div>
+                                @endif
                     </div>
                 </div>
                 <hr>

@@ -11,6 +11,7 @@ use App\Models\Roles_Users;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\SendNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Employees extends Component
@@ -91,6 +92,12 @@ class Employees extends Component
                 $this->resetInputs();
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'success',  'message' => 'تم إضافة موظف جديد بنجاح']);
+                 $data =[
+                    'title' => "تهانينا أنت الان من ضمن عائلة فور ميديا",
+                    'url' => '/4mediapanel'
+                ];
+
+                $user->notify(new SendNotification($data));
             }else{
                 $this->dispatchBrowserEvent('alert',
                     ['type' => 'error',  'message' => 'حدث خطأ أثناء إضافة موظف جديد ، حاول مرة أخرى']);
@@ -134,8 +141,8 @@ class Employees extends Component
             if($this->password != null){
                 $user->password = Hash::make($this->password);
             }
-        $user = $user->save();
-        if($user){
+        $saveUser = $user->save();
+        if($saveUser){
             $employee = Employee::where('id',$this->employee_id)->update([
                 'category_id' => $this->category,
             ]);
@@ -144,6 +151,12 @@ class Employees extends Component
                 $this->resetInputs();
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'success',  'message' => 'تم تحديث بيانات الموظف بنجاح']);
+                $data =[
+                    'title' => "تم تحديث بياناتك من قبل المسؤول",
+                    'url' => '/setting'
+                ];
+
+                $user->notify(new SendNotification($data));
             }else{
                 $this->dispatchBrowserEvent('alert',
                     ['type' => 'error',  'message' => 'حدث خطأ أثناء تحديث بيانات الموظف ، حاول مرة أخرى']);

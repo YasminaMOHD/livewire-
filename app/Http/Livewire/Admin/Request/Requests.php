@@ -2,13 +2,18 @@
 
 namespace App\Http\Livewire\Admin\Request;
 
+use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Manger;
 use App\Models\Request;
 use Livewire\Component;
 use App\Models\Category;
+use App\Models\Employee;
 use App\Models\Description;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\SendNotification;
+use App\View\Components\NotificationMenu;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Requests extends Component
@@ -48,7 +53,7 @@ class Requests extends Component
     }
 
     public function filter(){
-        $request = Request::with('user')->with('guset')->with('category')
+        $request = Request::with('user')->with('guset')->with('category')->with('rate')
         ->with('employee')->with('desc')->orderBy('id','desc');
         $manger = Manger::where('user_id',Auth::user()->id)->first();
         if($this->filterCategory == "all" && $this->filterType == "all"){
@@ -57,7 +62,13 @@ class Requests extends Component
             }elseif(Auth::user()->user_type == 'manger'){
                 $requests = $request->where('category_id', $manger->category_id);
             }else{
-                $requests = $request->where('user_id', Auth::user()->id);
+                $em = Employee::where('user_id',Auth::user()->id)->first();
+                if($em != null){
+                    $requests = $request->where('employee_id', $em->id);
+                }else{
+                    $requests = [];
+                }
+
             }
         }else{
             if($this->filterCategory != "all" && $this->filterType == "all"){
@@ -80,8 +91,13 @@ class Requests extends Component
                     // if($this->filterType == 2){
                     //     $requests = $request->whereIn('status',[2,4,5])->where('user_id', Auth::user()->id)->paginate(20);
                     //    }else{
+                        $em = Employee::where('user_id',Auth::user()->id)->first();
+                        if($em != null){
                         $requests = $request->where('status',$this->filterType)->
-                        where('user_id', Auth::user()->id);
+                        where('employee_id', $em->id);
+                        }else{
+                            $requests = [];
+                        }
                     //    }
                 }
             }else{
@@ -100,24 +116,29 @@ class Requests extends Component
     public function assign(){
 
         $this->authorize('update-request', Request::class);
+        if($this->request->status == 0 || $this->request->status == 1 ||  $this->request->status == 3){
+            $this->dispatchBrowserEvent('alert',
+            ['type' => 'warning',  'message' => 'أنت لست موافق على العمل ، لا يمكن تعيين العمل قبل الموافقة عليه']);
+        }else{
         $this->request->employee_id = $this->employee;
         $save = $this->request->save();
        if($save){
         $this->dispatchBrowserEvent('alert',
         ['type' => 'success',  'message' => 'تم تعيين الموظف للعمل على الطلب بنجاح']);
+        $data =[
+            'title' => "تم تعيينك على عمل جديد من قبل المسؤول",
+            'url' => "/requests"
+        ];
+        $user = User::where('id' , Employee::where('id',$this->employee)->first()->user_id)->first();
+        $user->notify(new SendNotification($data));
        }else{
         $this->dispatchBrowserEvent('alert',
         ['type' => 'error',  'message' => 'خطا عند تعيين الموظف للقيام بالعمل ، حاول مرة أخرى']);
        }
-
+    }
         $this->assetResetInput();
         $this->dispatchBrowserEvent('hide-modal');
         }
-
-    public function assetResetInput()
-    {
-        $this->employee = '';
-    }
 
     public function update($id){
         $request = Request::findOrFail($id);
@@ -148,6 +169,23 @@ class Requests extends Component
 
             $this->dispatchBrowserEvent('alert',
             ['type' => 'success',  'message' => 'تم تعديل حالة الطلب / إضافة وصف  بنجاح']);
+
+            $data = [
+                'title' => "تم اضافة ملاحظات / تغيير حالة العمل {{$this->request->project_name}}",
+                'url' => '/requests'
+            ];
+            if($this->request->employee_id != null){
+            $user = User::where('id' , Employee::where('id',$this->request->employee_id)->first()->user_id)->first();
+            $user->notify(new SendNotification($data));
+            }
+            $manger = Manger::where('category_id',$this->request->category_id)->first();
+            if($manger != null){
+            $user_manger = User::where('id' , $manger->user_id)->first();
+            $user_manger->notify(new SendNotification($data));
+            }
+            $admin = User::where('user_type','admin')->first();
+            $admin->notify(new SendNotification($data));
+
            }else{
             $this->dispatchBrowserEvent('alert',
             ['type' => 'error',  'message' => 'خطا عند تعديل حالة الطلب / إضافة وصف ، حاول مرة أخرى']);
@@ -172,6 +210,7 @@ class Requests extends Component
             $this->descriptions = Description::where('request_id',$this->request_id)->get();
             $this->dispatchBrowserEvent('alert',
             ['type' => 'success',  'message' => 'تم تعديل الوصف  بنجاح']);
+
            }else{
             $this->dispatchBrowserEvent('alert',
             ['type' => 'error',  'message' => 'خطا عند تعديل الوصف ، حاول مرة أخرى']);
@@ -203,6 +242,9 @@ class Requests extends Component
         $this->delivryTime = '';
         $this->oldDescription = '';
     }
-
+    public function assetResetInput()
+    {
+        $this->employee = '';
+    }
 
 }

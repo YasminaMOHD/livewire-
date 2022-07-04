@@ -211,7 +211,7 @@
                         </div>
                     </div> --}}
 
-                    <div class="card-body">
+                    <div class="card-body" style="padding-right:0 !important">
                         <div class="table-responsive text-right">
 
                             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -227,6 +227,7 @@
                                         <th>الموظف المسؤول</th>
                                         <th>معلومات أُخرى</th>
                                         <th>حالة الطلب</th>
+                                        <th>التقييم</th>
                                         <th></th>
                                     </tr>
                                 </thead>
@@ -254,9 +255,10 @@
                                             @endphp
                                             <td>{!! $employee ? $employee->name : '' !!}</td>
                                             <td>
-                                                @if($request->otherInfo != null)
-                                                <p class="show-more text-warning">اضغط للعرض</p>
-                                                <p class="text-data" style="display:none">{!! $request->otherInfo ?? '' !!}</p>
+                                                @if ($request->otherInfo != null)
+                                                    <p class="show-more text-warning">اضغط للعرض</p>
+                                                    <p class="text-data" style="display:none">{!! $request->otherInfo ?? '' !!}
+                                                    </p>
                                                 @endif
                                             </td>
                                             <td style="text-align: center">
@@ -280,25 +282,28 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                {{$request->rate  ? $request->rate->rate ."⭐" : "لم يتم التقييم"}}
+                                            </td>
+                                            <td>
                                                 <div class="text-center" style="text-align: center;display:flex">
                                                     <button class="btn btn-success ml-2 btn-sm"
                                                         wire:click.prevent="update({{ $request->id }})"><i
                                                             class="fas fa-history"></i></button>
-                                                    <button class="btn btn-warning btn-sm"
-                                                        wire:click.prevent="goToAssign({{ $request->id }})">
-                                                        <i class="fas fa-arrow-right"></i>
-                                                    </button>
+                                                    @can('update-request')
+                                                        <button class="btn btn-warning btn-sm"
+                                                            wire:click.prevent="goToAssign({{ $request->id }})">
+                                                            <i class="fas fa-arrow-right"></i>
+                                                        </button>
+                                                    @endcan
                                                 </div>
                                             </td>
                                         </tr>
-
                                     @endforeach
                                 </tbody>
                             </table>
-                             <!-- Large modal -->
-                             <div class="modal fade bd-example-modal-lg" id="history"
-                                wire:ignore.self tabindex="-1" role="dialog"
-                                aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <!-- Large modal -->
+                            <div class="modal fade bd-example-modal-lg" id="history" wire:ignore.self tabindex="-1"
+                                role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
                                 <div class="modal-dialog modal-lg">
                                     <div class="modal-content">
                                         <div class="modal-header">
@@ -315,24 +320,19 @@
                                                 <div class="edit-2 mb-5">
                                                     @foreach ($descriptions as $desc)
                                                         <div class="p-2 mb-2 rounded bg-secondary">
-                                                            <div class="edit-desc mb-3"
-                                                                style="display: none">
+                                                            <div class="edit-desc mb-3" style="display: none">
                                                                 <div>
                                                                     <textarea class="w-100 desc" name="desc" wire:model.lazy="newDescription">{!! $desc->text !!}</textarea>
-                                                                    <button
-                                                                        value="{!! $desc->id !!}"
+                                                                    <button value="{!! $desc->id !!}"
                                                                         wire:click.prevent="updateDesc({{ $desc->id }})"
                                                                         class="updatedesc btn btn-hover btn-primary">تعديل
                                                                         الملاحظة</button>
-                                                                    <div wire:loading
-                                                                        wire.targer="updateDesc">
-                                                                        <i
-                                                                            class="fas fa-spinner fa-spin"></i>
+                                                                    <div wire:loading wire.targer="updateDesc">
+                                                                        <i class="fas fa-spinner fa-spin"></i>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                            <div
-                                                                class="p-1 mb-4 bg-light rounded textedit">
+                                                            <div class="p-1 mb-4 bg-light rounded textedit">
                                                                 {!! $desc->text !!} </div>
 
                                                             <div class="row">
@@ -379,43 +379,38 @@
                                                     </div>
 
                                                     <div class="status-request" wire:ignore>
-                                                        <input type="radio" class="ml-1"
-                                                            name="lead_status" value="0"
-                                                            wire:model.lazy="status" required>
+                                                        @if(Auth::user()->user_type != 'employee')
+                                                        <input type="radio" class="ml-1" name="lead_status"
+                                                            value="0" wire:model.lazy="status" required>
                                                         <label class="text-primary"
                                                             style="font-size: 14px !important;margin-left:13px">طلب
                                                             جديد</label>
-                                                        <input type="radio" class="ml-1"
-                                                            name="lead_status" value="1"
-                                                            wire:model.lazy="status" required>
+                                                        <input type="radio" class="ml-1" name="lead_status"
+                                                            value="1" wire:model.lazy="status" required>
                                                         <label class="text-dark"
                                                             style="font-size: 14px !important;margin-left:13px">طلب
                                                             مُعلق</label>
-                                                        <input type="radio" class="ml-1"
-                                                            name="lead_status" value="3"
-                                                            wire:model.lazy="status" required>
+                                                        <input type="radio" class="ml-1" name="lead_status"
+                                                            value="3" wire:model.lazy="status" required>
                                                         <label class="text-danger"
                                                             style="font-size: 14px !important;margin-left:13px">طلب
                                                             مرفوض</label>
-                                                        <input type="radio" class="ml-1"
-                                                            name="lead_status" id="approved_status"
-                                                            value="2" wire:model.lazy="status"
-                                                            required>
+                                                        <input type="radio" class="ml-1" name="lead_status"
+                                                            id="approved_status" value="2"
+                                                            wire:model.lazy="status" required>
                                                         <label class="text-success"
                                                             style="font-size: 14px !important;margin-left:13px">طلب
                                                             مقبول</label>
-
-                                                        <input type="radio" class="ml-1"
-                                                            id="underway" name="lead_status"
-                                                            value="4" wire:model.lazy="status"
-                                                            required>
+                                                          @endif
+                                                        <input type="radio" class="ml-1" id="underway"
+                                                            name="lead_status" value="4"
+                                                            wire:model.lazy="status" required>
                                                         <label class="text-warning"
                                                             style="font-size: 14px !important;margin-left:13px">طلب
                                                             قيد
                                                             التنفيذ</label>
-                                                        <input type="radio" class="ml-1"
-                                                            name="lead_status" value="5"
-                                                            wire:model.lazy="status" required>
+                                                        <input type="radio" class="ml-1" name="lead_status"
+                                                            value="5" wire:model.lazy="status" required>
                                                         <label class="text-success"
                                                             style="font-size: 14px !important;margin-left:13px">طلب
                                                             مكتمل</label>
@@ -423,20 +418,18 @@
 
 
                                                     <div class="modal-footer" wire:ignore>
-                                                        <div id="delivery-time"
-                                                            class="delivery-time ml-auto"
+                                                        <div id="delivery-time" class="delivery-time ml-auto"
                                                             style="display: none">
                                                             <div id="delveriryDay">حدد يوم التسليم : <input
-                                                                    type="date"
-                                                                    wire:model.lazy="delivryTime"
+                                                                    type="date" wire:model.lazy="delivryTime"
                                                                     name="deleviry">
                                                             </div>
                                                         </div>
                                                         <button class="btn btn-secondary" type="button"
                                                             data-dismiss="modal">إلغاء</button>
-                                                        <input class="btn btn-success" type="submit"
-                                                            name="add_desc" value="تأكيد">
-
+                                                        <input class="btn btn-success" type="submit" name="add_desc"
+                                                            value="تأكيد">
+                                                            <div wire:loading wire:target="edit"><i class="fas fa-spinner fa-spin"></i></div>
                                                     </div>
                                                 </form>
                                             </div>
@@ -470,59 +463,64 @@
                                     </div>
                                 </div>
                             </div>
-                            {{-- request assign --}}
-                            <div class="modal fade bd-example-modal-lg" id="showHistory" wire:ignore.self
-                                tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="edit-label">تحديد موظف للعمل</h5>
-                                            <button class="close" type="button" data-dismiss="modal"
-                                                aria-label="Close">
-                                                <span style="display: block" aria-hidden="true">×</span>
-                                            </button>
-                                        </div>
-                                        <form wire:submit.prevent="assign">
-                                            <div class="modal-body">
-                                                <div class="col-md-12" wire:ignore>
-                                                    <label for="selectpicker3">اختر موظف</label>
-                                                    <select name="employee" class="selectpicker w-100"
-                                                        id="selectpicker3" required data-live-search="true"
-                                                        style="text-align: right" wire:model.lazy="employee">
-                                                        <option value="" selected>اختر موظف</option>
-                                                        @php
-                                                            if (Auth::user()->user_type == 'admin') {
-                                                                $employees = App\Models\Employee::with('user')->get();
-                                                            } else {
-                                                                $manger = App\Models\Manger::where('user_id', Auth::user()->id)->first();
-                                                                $employees = App\Models\Employee::with('user')
-                                                                    ->where('category_id', $manger->category_id)
-                                                                    ->get();
-                                                            }
-                                                        @endphp
+                            @can('update-request')
+                                {{-- request assign --}}
+                                <div class="modal fade bd-example-modal-lg" id="showHistory" wire:ignore.self
+                                    tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog modal-lg">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="edit-label">تحديد موظف للعمل</h5>
+                                                <button class="close" type="button" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span style="display: block" aria-hidden="true">×</span>
+                                                </button>
+                                            </div>
+                                            <form wire:submit.prevent="assign">
+                                                <div class="modal-body">
+                                                    <div class="col-md-12" wire:ignore>
+                                                        <label for="selectpicker3">اختر موظف</label>
+                                                        <select name="employee" class="selectpicker w-100"
+                                                            id="selectpicker3" required data-live-search="true"
+                                                            style="text-align: right" wire:model.lazy="employee">
+                                                            <option value="" selected>اختر موظف</option>
+                                                            @php
+                                                                if (Auth::user()->user_type == 'admin') {
+                                                                    $employees = App\Models\Employee::with('user')->get();
+                                                                } else {
+                                                                    $manger = App\Models\Manger::where('user_id', Auth::user()->id)->first();
+                                                                    $employees = App\Models\Employee::with('user')
+                                                                        ->where('category_id', $manger->category_id)
+                                                                        ->get();
+                                                                }
+                                                            @endphp
 
-                                                        @foreach ($employees as $employee)
-                                                            <option value="{!! $employee ? $employee->id : '' !!}">
-                                                                {!! $employee->user ? $employee->user->name : '' !!}</option>
-                                                        @endforeach
-                                                    </select>
+                                                            @foreach ($employees as $employee)
+                                                                <option value="{!! $employee ? $employee->id : '' !!}">
+                                                                    {!! $employee->user ? $employee->user->name : '' !!}</option>
+                                                            @endforeach
+                                                        </select>
 
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button class="btn btn-secondary" type="button"
-                                                    data-dismiss="modal">إلغاء</button>
-                                                <button class="btn btn-success" type="submit" name="update"
-                                                    id="update-{!! $employee ? $employee->id : '' !!}"
-                                                    value="{!! $employee ? $employee->id : '' !!}">تحديد</button>
-                                            </div>
-                                        </form>
+                                                <div class="modal-footer">
+                                                    <button class="btn btn-secondary" type="button"
+                                                        data-dismiss="modal">إلغاء</button>
+                                                    <button class="btn btn-success" type="submit" name="update"
+                                                        id="update-{!! $employee ? $employee->id : '' !!}"
+                                                        value="{!! $employee ? $employee->id : '' !!}">تحديد</button>
+                                                        <div wire:loading wire:target="assign"><i class="fas fa-spinner fa-spin"></i></div>
+
+                                                    </div>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            @if(count($requests))
-                            {{ $requests->links() }}
+                            @endcan
+                            {{-- request assign --}}
+                            @if (count($requests))
+                                {{ $requests->links() }}
                             @endif
                         </div>
                     </div>
@@ -546,8 +544,8 @@
                 $('#history').modal('show');
             });
             window.addEventListener('editDescription', event => {
-                $('#edit-'+ event.detail.id).parent().parent().parent().parent().find('.rounded').fadeToggle();
-                $('#edit-'+ event.detail.id).parent().parent().parent().parent().find('.edit-desc').fadeToggle();
+                $('#edit-' + event.detail.id).parent().parent().parent().parent().find('.rounded').fadeToggle();
+                $('#edit-' + event.detail.id).parent().parent().parent().parent().find('.edit-desc').fadeToggle();
             });
             $(document).on('change', '#selectpicker3', function(e) {
                 //when ever the value of changes this will update your PHP variable
@@ -559,7 +557,7 @@
             $(document).on('click', '#underway', function() {
                 $(this).parent().parent().find('.modal-footer #delivery-time').fadeToggle();
             });
-            $(document).on('click','.show-more',function(){
+            $(document).on('click', '.show-more', function() {
                 $(this).parent().find('.text-data').fadeToggle();
             })
         </script>

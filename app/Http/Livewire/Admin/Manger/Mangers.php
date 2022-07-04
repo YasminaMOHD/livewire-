@@ -10,8 +10,10 @@ use Livewire\Component;
 use App\Models\Category;
 use App\Models\Roles_Users;
 use Livewire\WithPagination;
+use App\Events\NewNotification;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
+use App\Notifications\SendNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Mangers extends Component
@@ -84,6 +86,14 @@ class Mangers extends Component
                     'user_id' => $user->id,
                     'category_id' => $this->category,
                 ]);
+                 $data =[
+                    'title' => "تهانيا ، أنت الإن من ضمن عائلة فور ميديا",
+                    'url' => '/4mediapanel'
+                ];
+
+        //    ///   save  notify in database table ////
+
+            $user->notify(new SendNotification($data));
 
             }catch(Exception $e){
                 User::where('id', $user->id)->delete();
@@ -138,8 +148,8 @@ class Mangers extends Component
             if($this->password != null){
                 $user->password = Hash::make($this->password);
             }
-        $user = $user->save();
-        if($user){
+        $saveUser = $user->save();
+        if($saveUser){
             $manger = Manger::where('id',$this->manger_id)->update([
                 'category_id' => $this->category,
             ]);
@@ -148,6 +158,11 @@ class Mangers extends Component
                 $this->resetInputs();
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'success',  'message' => 'تم تحديث بيانات المدير بنجاح']);
+                $data =[
+                    'title' => "تم تحديث بياناتك من قبل المسؤول",
+                    'url' => url('/setting'),
+                ];
+                $user->notify(new SendNotification($data));
             }else{
                 $this->dispatchBrowserEvent('alert',
                     ['type' => 'error',  'message' => 'حدث خطأ أثناء تحديث بيانات المدير ، حاول مرة أخرى']);

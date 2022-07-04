@@ -26,11 +26,11 @@ class SocialController extends Controller
         try {
 
             $user = Socialite::driver('facebook')->stateless()->user();
-            $userCol = User::where('fb_id', $user->id)->first();
+            $addUser = User::where('fb_id', $user->id)->first();
 
-            if($userCol){
-                Auth::login($userCol);
-                return redirect()->route('admin.index');
+            if($addUser){
+                Auth::login($addUser);
+                // return redirect()->route('admin.index');
             }else{
                 $addUser = User::create([
                     'name' => $user->name,
@@ -39,9 +39,13 @@ class SocialController extends Controller
                     'password' => encrypt(Str::random(12))
                 ]);
 
-                Auth::login($addUser);
-                return redirect()->route('admin.index');
             }
+            Auth::login($addUser);
+                if(Auth::user()->user_type == 'user'){
+                    return redirect()->route('index');
+                }else{
+                    return redirect()->route('admin.index');
+                }
 
         } catch (Exception $exception) {
             dd($exception->getMessage());
@@ -52,11 +56,11 @@ class SocialController extends Controller
     {
         try {
             $user = Socialite::driver('google')->stateless()->user();
-            $userCol = User::where('google_id', $user->id)->first();
+            $addUser = User::where('google_id', $user->id)->first();
 
-            if($userCol){
-                Auth::login($userCol);
-                return redirect()->route('admin.index');
+            if($addUser){
+                Auth::login($addUser);
+                // return redirect()->route('admin.index');
             }else{
                 $addUser = User::create([
                     'name' => $user->name,
@@ -65,9 +69,13 @@ class SocialController extends Controller
                     'password' => encrypt(Str::random(12))
                 ]);
 
-                Auth::login($addUser);
-                return redirect()->route('admin.index');
             }
+            Auth::login($addUser);
+            if(Auth::user()->user_type == 'user'){
+                 return redirect()->route('index');
+             }else{
+                 return redirect()->route('admin.index');
+             }
 
         } catch (Exception $exception) {
             dd($exception->getMessage());

@@ -4,11 +4,14 @@ namespace App\Http\Livewire\User;
 
 use Livewire\Component;
 use App\Models\Favorite;
+use Livewire\WithPagination;
 use App\Http\Traits\AddFavorites;
 use Illuminate\Support\Facades\Auth;
 
 class Favorites extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
     use AddFavorites;
     public function render()
     {

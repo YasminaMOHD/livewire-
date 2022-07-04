@@ -15,4 +15,9 @@ class ExampleTest extends TestCase
     {
         $this->assertTrue(true);
     }
+    public function TestRedirectToDashboard()
+    {
+        $responce = $this->get('/4mediapanel');
+        $responce->assertStatus(200);
+    }
 }

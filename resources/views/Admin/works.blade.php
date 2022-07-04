@@ -200,6 +200,7 @@
                                             data-dismiss="modal">إلغاء</button>
                                         <button class="btn btn-success" type="submit" name="submit"
                                             onclick="javascript:void(0)">إضافة عمل</button>
+                                            <div wire:loading wire:target="store"><i class="fas fa-spinner fa-spin"></i></div>
                                     </div>
                                 </form>
                             </div>
@@ -227,10 +228,12 @@
                                         <tr>
                                             <td>
                                                 <div style="display :flex">
+                                                    @if(Auth::user()->user_type == "admin")
                                                     <input type="checkbox" style="margin-left: 7px"
                                                         name="selectWorks[]" wire:model.lazy="selectWorks"
                                                         value="{{ $work->id }}" @if($work->is_main == 1) checked @endif
                                                         wire:change.prevent="addToMainList({{ $work->id }})" id="check{{$work->id}}" />
+                                                    @endif
                                                     {!! $loop->iteration !!}
                                                 </div>
                                             </td>
@@ -406,6 +409,7 @@
                                                     data-dismiss="modal">إلغاء</button>
                                                 <button class="btn btn-success" type="submit" name="submit"
                                                     onclick="javascript:void(0)">تعديل العمل</button>
+                                                    <div wire:loading wire:target="update"><i class="fas fa-spinner fa-spin"></i></div>
                                             </div>
                                         </form>
                                     </div>
@@ -442,6 +446,7 @@
                                                             data-dismiss="modal">إلغاء</button>
                                                         <button class="btn btn-success" type="submit" name="submit"
                                                             onclick="javascript:void(0)">إرسال</button>
+                                                            <div wire:loading wire:target="goToReject"><i class="fas fa-spinner fa-spin"></i></div>
                                                     </div>
                                                 </div>
                                             </div>

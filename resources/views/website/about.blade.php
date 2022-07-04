@@ -1,6 +1,7 @@
 <div>
     @push('styles')
         <link rel="stylesheet" href="{{ asset('website/css/aboutUs.css') }}">
+    @endpush
         <section class="u-clearfix u-gradient u-section-1" id="sec-565b">
             <div class="u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
                 <div class="u-layout">
@@ -20,7 +21,7 @@
                                     data-animation-name="customAnimationIn" data-animation-duration="1000"
                                     data-animation-direction="">من نحن </h3>
                                 <p class="u-align-center-sm u-align-right-lg u-align-right-md u-align-right-xl u-text u-text-grey-70 u-text-2"
-                                    data-animation-name="customAnimationIn" data-animation-duration="1000">{{$content->whoWe}}</p>
+                                    data-animation-name="customAnimationIn" data-animation-duration="1000">{{$content ? $content->whoWe : ""}}</p>
                             </div>
                         </div>
                     </div>
@@ -155,7 +156,7 @@
                 <h2 class="u-align-center u-text u-text-custom-color-9 u-text-1"> آلية العمل</h2>
                 <p
                     class="u-align-center-lg u-align-center-md u-align-center-sm u-align-center-xs u-text u-text-custom-color-4 u-text-2">
-                    {{$content->mechanismWork}}
+                    {{$content ? $content->mechanismWork : ''}}</p>
                 </p>
                 <div class="u-align-center u-list u-list-1">
                     <div class="u-repeater u-repeater-1">

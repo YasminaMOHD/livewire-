@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Admin\Work;
 
+use App\Models\User;
 use App\Models\Work;
 use App\Models\Manger;
 use Livewire\Component;
@@ -11,6 +12,7 @@ use Livewire\WithPagination;
 use Livewire\WithFileUploads;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\SendNotification;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Works extends Component
@@ -53,6 +55,10 @@ class Works extends Component
         ->section('content');
     }
 
+        //  status 0 work new dont have approve
+        //  status 1 work new have approve from admin
+        //  status 2 work is approved
+        //  status 3 work is reject
     public function store()
     {
         $this->authorize('create-work', Work::class);
@@ -61,11 +67,6 @@ class Works extends Component
         try{
             // upload file
         $new_name = $this->file->store('public/uploades');
-
-        //  status 0 work new dont have approve
-        //  status 1 work new have approve from admin
-        //  status 2 work is approved
-        //  status 3 work is reject
 
         $work = new Work();
             $work->title =  $this->title;
@@ -85,6 +86,12 @@ class Works extends Component
                 $this->resetInputs();
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'success',  'message' => 'تم إضافة عمل جديد بنجاح']);
+
+                $data =[
+                    'title' => "تم إضافة عمل جديد إلى الموقع",
+                    'url' => "/works"
+                ];
+               $this->sendNotification($data);
             }else{
                 $this->dispatchBrowserEvent('alert',
                     ['type' => 'error',  'message' => 'حدث خطأ أثناء إضافة عمل جديد ، حاول مرة أخرى']);
@@ -131,8 +138,8 @@ class Works extends Component
                 $new_name = $this->newFile->store('public/uploades');
                 $work->file =  $new_name;
             }
-            if($this->status == 3){
-                $work->status == 1;
+            if($work->status == 3){
+                $work->status = 1;
             }
 
             $work->category_id =  $this->category;
@@ -171,6 +178,12 @@ class Works extends Component
             if($work){
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'success',  'message' => 'تم الموافقة على نشر العمل بنجاح']);
+                $employee = User::where('id', Work::where('id',$id)->first()->user_id)->first();
+                $data =[
+                    'title' => "تم الموافقة على عملك",
+                    'url' => '/works'
+                ];
+                $employee->notify(new sendNotification($data));
              }
         }else{
             $work = Work::where('id',$id)->update(
@@ -181,8 +194,14 @@ class Works extends Component
                 );
             if($work){
                 $this->dispatchBrowserEvent('alert',
-                ['type' => 'warning',  'message' => 'تم رفض  نشر العمل بنجاح']);
+                ['type' => 'warning',  'message' => 'تم رفض  نشر العمل ']);
                 $this->dispatchBrowserEvent('hide-modal');
+                $employee = User::where('id', Work::where('id',$id)->first()->user_id)->first();
+                $data =[
+                    'title' => "تم رفض نشر عملك من قبل المسؤول",
+                    'url' => '/works'
+                ];
+                $employee->notify(new sendNotification($data));
              }
         }
     }
@@ -197,9 +216,15 @@ class Works extends Component
 
          try{
              $work = Work::findOrFail($this->work_id);
+             $this->category = $work->category_id;
              $work = $work->delete();
              if($work){
               $this->dispatchBrowserEvent('deleted-success');
+              $data =[
+                'title' => "تم حذف عمل من الموقع",
+                'url' => "/works"
+            ];
+            $this->sendNotification($data);
             }else{
                 $this->dispatchBrowserEvent('alert',
                     ['type' => 'error',  'message' => 'حدث خطأ أثناء حذف بيانات العمل ، حاول مرة أخرى']);
@@ -283,5 +308,15 @@ class Works extends Component
         $this->desc = '';
         $this->file = '';
         $this->category = '';
+    }
+
+    public function sendNotification($data){
+            $user = User::where('user_type' , 'admin')->first();
+            $m = Manger::where('category_id',$this->category)->first();
+            $user->notify(new SendNotification($data));
+            if($m != null){
+                $manger = User::where('id' , $m->user_id)->first();
+                $manger->notify(new SendNotification($data));
+            }
     }
 }

@@ -5,10 +5,14 @@ namespace App\Http\Livewire\User;
 use App\Models\Rate;
 use App\Models\Request;
 use Livewire\Component;
+use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
 
 class MyRequest extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public $request_id, $store_rating;
 
     public function render()
@@ -47,9 +51,6 @@ class MyRequest extends Component
 
             // to catch uniqly rating
         } catch (\Illuminate\Database\QueryException $ex) {
-            // $this->dispatchBrowserEvent('hide-modal');
-            // $this->dispatchBrowserEvent('alert',
-            //         ['type' => 'error',  'message' => $ex->message]);
             $this->dispatchBrowserEvent('alert',
         ['type' => 'error',  'message' => 'لقد سبق لك تقييم هذا العمل مُسبقا']);
         }

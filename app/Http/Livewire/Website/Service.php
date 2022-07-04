@@ -4,10 +4,12 @@ namespace App\Http\Livewire\Website;
 
 use App\Models\User;
 use App\Models\Guset;
+use App\Models\Manger;
 use App\Models\Request;
 use Livewire\Component;
 use App\Models\Category;
 use Illuminate\Support\Facades\Auth;
+use App\Notifications\SendNotification;
 
 class Service extends Component
 {
@@ -42,10 +44,6 @@ class Service extends Component
         return view('website.service' , compact('categories'))->extends('website.layouts.master')
         ->section('content');
     }
-
-    public function store(){
-        $this->validate($this->rules);
-        try{
         //  status 0 request new
         //  status 1 request responce معلقة
         //  status 2 request approve
@@ -53,6 +51,9 @@ class Service extends Component
         //  status 4 request is قيد التنفيذ
         //  status 5 request is مكتملة
 
+    public function store(){
+        $this->validate($this->rules);
+        try{
         $request = new Request();
         $guset=null;
         if(Auth::check()){
@@ -79,9 +80,21 @@ class Service extends Component
 
             $request = $request->save();
             if($request){
+                $m = Manger::where('category_id',$this->category)->first();
+
                 $this->resetInputs();
                 $this->dispatchBrowserEvent('alert',
                 ['type' => 'success',  'message' => 'تم ارسال الطلب بنجاح']);
+                $data =[
+                    'title' => "هناك طلب عمل جديد",
+                    'url' => "/requests"
+                ];
+                $user = User::where('user_type' , 'admin')->first();
+                $user->notify(new SendNotification($data));
+                if($m != null){
+                    $manger = User::where('id' , $m->user_id)->first();
+                    $manger->notify(new SendNotification($data));
+                }
             }else{
                 $this->dispatchBrowserEvent('alert',
                     ['type' => 'error',  'message' => 'حدث خطأ أثناء إرسال الطلب ، حاول مرة أخرى']);

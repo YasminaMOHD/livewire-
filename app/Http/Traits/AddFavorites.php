@@ -18,7 +18,8 @@ trait AddFavorites {
             }
         }else{
             $this->dispatchBrowserEvent('alert',
-               ['type' => 'warning',  'message' => 'عليك تسجيل الدخول لتتمكن من الإضافة الى المفضلة']);
+               ['type' => 'warning',  'message' => 'عليك تسجيل الدخول لتتمكن
+               من الإضافة الى المفضلة']);
 
     }
     }

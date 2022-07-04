@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Content;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
@@ -31,5 +32,27 @@ class HomeController extends Controller
 
     public function setting(){
         return view('admin.setting');
+    }
+    public function redirect(){
+        $home = '/4mediapanel';
+        if(Auth::user()->user_type == 'user'){
+            $home= '/';
+        }
+        return redirect($home);
+    }
+    public function show($id){
+        $user = Auth::user();
+        $notify = $user->notifications()->findOrFail($id);
+
+        $notify->markAsRead();
+
+        if(asset($notify->data['url']) && $notify->data['url']){
+            return  redirect($notify->data['url']);
+        }
+
+        return redirect()->back();
+    }
+    public function showAll(){
+        $user = Auth::user();
     }
 }
